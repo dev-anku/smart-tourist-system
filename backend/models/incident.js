@@ -14,10 +14,11 @@ const IncidentSchema = new Schema({
       },
     },
   },
-  time: { type: Date, required: true },
+  description: { type: String, required: true },
+  time: { type: Date },
   image: { type: String, required: true },
   assignedResponder: { type: Schema.Types.ObjectId, ref: "User" },
-  onChainHash: { type: String },
+  evidenceHash: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

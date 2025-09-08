@@ -23,10 +23,7 @@ exports.createGeofence = async (req, res) => {
 
 exports.getAllGeofences = async (req, res) => {
   try {
-    const geofences = await Geofence.find().populate(
-      "createdBy",
-      "username email",
-    );
+    const geofences = await Geofence.find().populate("createdBy", "name email");
     res.json(geofences);
   } catch (err) {
     console.error(err);
@@ -38,7 +35,7 @@ exports.getGeofence = async (req, res) => {
   try {
     const geofence = await Geofence.findById(req.params.id).populate(
       "createdBy",
-      "username email",
+      "name email",
     );
     if (!geofence) return res.status(404).json({ error: "Geofence not found" });
     res.json(geofence);

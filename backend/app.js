@@ -21,9 +21,11 @@ mongoose.connect(process.env.MONGODB).catch((err) => {
 const authRoutes = require("./routes/authRoutes.js");
 const geofenceRoutes = require("./routes/geofenceRoutes.js");
 const locationRoutes = require("./routes/locationRoutes.js");
+const incidentRoutes = require("./routes/incidentRoutes.js");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/geofence", geofenceRoutes);
 app.use("/api/location", locationRoutes);
+app.use("/api/incident", incidentRoutes);
 
 module.exports = app;
