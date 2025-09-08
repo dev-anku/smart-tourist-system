@@ -3,6 +3,8 @@ import Header from "../components/header";
 
 const Home = () => {
 
+  const latitude,setLAT
+
     const getLocation = () =>{
         navigator.geolocation.watchPosition((pos)=>{
             console.log(pos.coords);

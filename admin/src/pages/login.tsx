@@ -12,11 +12,13 @@ const Login = () => {
     e.preventDefault();
 
     try {
-     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api`, {
+     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
         email,
         password
      });
 
+
+     console.log(res);
      navigate('/dashboard');
     } catch (err: any) {
         console.log(err);

@@ -5,21 +5,22 @@ import axios from "axios";
 const Register = () => {
   const navigate = useNavigate();
 
-    const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api`, {
-        email,
-        password
+     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
+       name,email,phone,password
      });
 
-     navigate('/dashboard');
+
+     console.log(res);
+     navigate('/home');
     } catch (err: any) {
         console.log(err);
     }
@@ -28,7 +29,7 @@ const Register = () => {
   return (
     <div className="w-screen min-h-screen flex items-center justify-center">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleRegister}
         className="bg-black border flex flex-col  border-white/20 gap-2 rounded-xl shadow-sm p-5"
       >
         <h2 className="text-white/80 font-semibold text-2xl">Login</h2>
@@ -77,7 +78,7 @@ const Register = () => {
           type="submit"
           className="bg-white rounded-lg px-3 py-2 text-sm font-semibold mt-2 cursor-pointer"
         >
-          Log In
+          Register
         </button>
       </form>
     </div>
