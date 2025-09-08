@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "../components/header";
-import api from '../utils/api';
+import axios from "axios";
 
 const Home = () => {
 
@@ -22,7 +22,7 @@ const Home = () => {
 
     const handleAdd =() =>{
       try{
-         const res = api.post(`${import.meta.env.VITE_BACKEND_URL}/api/location/`);
+         const res = axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/location/`);
 
          console.log(res);
       }
