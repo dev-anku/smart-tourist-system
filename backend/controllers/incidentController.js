@@ -33,6 +33,14 @@ exports.createIncident = async (req, res) => {
 
     await incident.save();
 
+    const tx = await digitalID.fileComplaint(
+      req.user._id.toString(),
+      [longitude, latitude],
+      description,
+      evidenceHash,
+    );
+    await tx.wait();
+
     getIO().emit("new-incident", incident);
 
     res.status(201).json({ message: "Incident created", incident });

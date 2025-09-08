@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const digitalID = require("../config/blockchain.js");
 const { validationResult } = require("express-validator");
 
 const User = require("../models/user.js");
@@ -24,6 +25,9 @@ exports.register = async (req, res) => {
 
     user = new User({ name, phone, email, password: hashedPassword, idHash });
     await user.save();
+
+    const tx = await digitalID.createUser(name, email);
+    await tx.wait();
 
     const payload = { userId: user._id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {

@@ -17,7 +17,6 @@ const IncidentSchema = new Schema({
   description: { type: String, required: true },
   time: { type: Date },
   image: { type: String, required: true },
-  assignedResponder: { type: Schema.Types.ObjectId, ref: "User" },
   evidenceHash: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
