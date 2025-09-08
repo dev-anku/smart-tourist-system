@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../api/axios.js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -14,15 +14,16 @@ const Register = () => {
     e.preventDefault();
 
     try {
-     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
-       name,email,phone,password
-     });
+      const res = await axios.post("/auth/register", {
+        name, email, phone, password
+      });
 
+      localStorage.setItem("token", res.data.token);
 
-     console.log(res);
-     navigate('/home');
+      console.log(res);
+      navigate('/home');
     } catch (err: any) {
-        console.log(err);
+      console.log(err);
     }
   };
 
@@ -35,7 +36,7 @@ const Register = () => {
         <h2 className="text-white/80 font-semibold text-2xl">Login</h2>
 
         <input
-        required
+          required
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setName(e.target.value);
           }}
@@ -44,8 +45,8 @@ const Register = () => {
           placeholder="Enter your name"
         />
 
-             <input
-        required
+        <input
+          required
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setPhone(e.target.value);
           }}
@@ -54,8 +55,8 @@ const Register = () => {
           placeholder="Enter phone number"
         />
 
-         <input
-        required
+        <input
+          required
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setEmail(e.target.value);
           }}
@@ -65,7 +66,7 @@ const Register = () => {
         />
 
         <input
-        required
+          required
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setPassword(e.target.value);
           }}

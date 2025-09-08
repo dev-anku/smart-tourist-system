@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios.js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,14 +12,14 @@ const Login = () => {
     e.preventDefault();
 
     try {
-     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api`, {
+      const res = await api.post("/auth/login", {
         email,
         password
-     });
-
-     navigate('/dashboard');
+      });
+      localStorage.setItem("token", res.data.token);
+      navigate('/home');
     } catch (err: any) {
-        console.log(err);
+      console.log(err);
     }
   };
 
@@ -32,7 +32,7 @@ const Login = () => {
         <h2 className="text-white/80 font-semibold text-2xl">Login</h2>
 
         <input
-        required
+          required
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setEmail(e.target.value);
           }}
@@ -42,7 +42,7 @@ const Login = () => {
         />
 
         <input
-        required
+          required
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setPassword(e.target.value);
           }}
@@ -51,7 +51,7 @@ const Login = () => {
           placeholder="Enter Password"
         />
 
-        <p className="text-sm ml-auto text-white/50 cursor-pointer hover:text-white/80" onClick={()=>navigate("/register")}>New user? Register</p>
+        <p className="text-sm ml-auto text-white/50 cursor-pointer hover:text-white/80" onClick={() => navigate("/register")}>New user? Register</p>
 
         <button
           type="submit"
