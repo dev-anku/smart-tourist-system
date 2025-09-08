@@ -18,4 +18,8 @@ mongoose.connect(process.env.MONGODB).catch((err) => {
   console.error(err);
 });
 
+const authRoutes = require("./routes/authRoutes.js");
+
+app.use("/api/auth", authRoutes);
+
 module.exports = app;
