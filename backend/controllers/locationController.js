@@ -4,7 +4,12 @@ const { getIO } = require("../socket.js");
 
 exports.updateLocation = async (req, res) => {
   try {
-    const { userId, longitude, latitude } = req.body;
+    const userId = req.user._id;
+    const { longitude, latitude } = req.body;
+
+    if (longitude == null || latitude == null) {
+      return res.status(400).json({ error: "longitude and latitude required" });
+    }
 
     const trip = await Trip.findOneAndUpdate(
       { user: userId, endDate: null },
@@ -14,10 +19,14 @@ exports.updateLocation = async (req, res) => {
           type: "Point",
           coordinates: [longitude, latitude],
         },
-        startDate: new Date(),
       },
-      { new: true, upsert: true },
+      { new: true, upsert: true, setDefaultsOnInsert: true },
     );
+
+    if (!trip.startDate) {
+      trip.startDate = new Date();
+      await trip.save();
+    }
 
     const point = { type: "Point", coordinates: [longitude, latitude] };
 

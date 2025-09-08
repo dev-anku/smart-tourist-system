@@ -1,14 +1,15 @@
 const Incident = require("../models/incident.js");
 const crypto = require("crypto");
+const { getIO } = require("../socket.js");
 
 exports.createIncident = async (req, res) => {
   try {
-    const { reporter, longitude, latitude, description, time } = req.body;
+    const { longitude, latitude, description, time } = req.body;
 
-    if (!reporter || !description || !longitude || !latitude || !req.file) {
+    if (!description || !longitude || !latitude || !req.file) {
       return res
         .status(400)
-        .json({ error: "reporter, location and image required" });
+        .json({ error: "description, location and image required" });
     }
 
     const image = req.file.path;
@@ -19,7 +20,7 @@ exports.createIncident = async (req, res) => {
       .digest("hex");
 
     const incident = new Incident({
-      reporter,
+      reporter: req.user._id,
       location: {
         type: "Point",
         coordinates: [longitude, latitude],
@@ -32,7 +33,7 @@ exports.createIncident = async (req, res) => {
 
     await incident.save();
 
-    // emit socket event to responders here
+    getIO().emit("new-incident", incident);
 
     res.status(201).json({ message: "Incident created", incident });
   } catch (err) {

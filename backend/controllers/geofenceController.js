@@ -2,7 +2,13 @@ const Geofence = require("../models/geofence.js");
 
 exports.createGeofence = async (req, res) => {
   try {
-    const { name, coordinates, createdBy } = req.body;
+    const { name, coordinates } = req.body;
+
+    if (!name || !coordinates || !Array.isArray(coordinates)) {
+      return res
+        .status(400)
+        .json({ error: "Name and valid coordinates required" });
+    }
 
     const geofence = new Geofence({
       name,
@@ -10,7 +16,7 @@ exports.createGeofence = async (req, res) => {
         type: "Polygon",
         coordinates: [coordinates],
       },
-      createdBy,
+      createdBy: req.user._id,
     });
 
     await geofence.save();
