@@ -11,6 +11,7 @@ const UserSchema = new Schema({
     default: "Tourist",
     required: true,
   },
+  password: { type: String, required: true },
   idHash: { type: String, required: true, unique: true },
   createdAt: { type: Date, default: Date.now },
 });
